@@ -1,0 +1,24 @@
+<!--
+
+ This is the shim provided by JS1K in which entries must run (although it's been slightly modified).
+
+ It provides various variables that can be used throughout the demo script and which cannot be renamed during the minification process.
+
+-->
+<!doctype html>
+<html>
+    <head>
+        <title>Springy</title>
+        <meta charset="utf-8">
+    </head>
+    <body>
+        <canvas id="c"></canvas>
+        <script>
+            var b = document.body;
+            var c = document.getElementsByTagName('canvas')[0];
+            var a = c.getContext('2d');
+            document.body.clientWidth; // fix bug in webkit: http://qfox.nl/weblog/218
+        </script>
+        <script src="springy.min.js"></script>
+    </body>
+</html>
