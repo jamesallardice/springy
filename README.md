@@ -21,3 +21,5 @@ If you want to generate the minified file from the source, follow these simple s
 ```javascript
 /*var */e=c.width=320,f=c.height=500,g=0,h=0,j=Math.random,k=7,l=[],m=70,n=20,p="fillStyle"/*,q,r,s,t,u,v,w,x,z,i,A*/;
 ```
+
+ - Remove the trailing semi-colon from the end of the output
