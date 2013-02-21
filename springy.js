@@ -83,16 +83,18 @@ function g() { // main game loop
         falling && (springY < canvasHeight - springHeight ? springY += fallSpeed++ : score ? alive = 0 : falling = fallSpeed = 0);
         !falling && !jumping && (jumping = 1, jumpSpeed = 17); // finished falling, start jumping again
         platforms.forEach(function (p, i) {
-            p.d *= p.x < 0 || p.x > canvasWidth - platformWidth ? -1 : 1; // move the platform horizontally if it's a moving one
-            p.x += p.d * (i / 2) * score / 100 | 0;
-            a[fs] = p.t ? "#FD3" : "#FFF";
-            a.fillRect(p.x, p.y, platformWidth, platformHeight);
-            falling && // check for collisions if the spring is falling
-                springX < p.x + platformWidth && 
-                springX + springWidth > p.x && 
-                springY + springHeight > p.y && 
-                springY + springHeight < p.y + platformHeight && 
-                (falling = fallSpeed = 0, !jumping && (jumping = 1, jumpSpeed = 17), p.t && (jumpSpeed = 50));
+            with (p) {
+                d *= x < 0 || x > canvasWidth - platformWidth ? -1 : 1; // move the platform horizontally if it's a moving one
+                x += d * (i / 2) * score / 100 | 0;
+                a[fs] = t ? "#FD3" : "#FFF";
+                a.fillRect(x, y, platformWidth, platformHeight);
+                falling && // check for collisions if the spring is falling
+                    springX < x + platformWidth && 
+                    springX + springWidth > x && 
+                    springY + springHeight > y && 
+                    springY + springHeight < y + platformHeight && 
+                    (falling = fallSpeed = 0, !jumping && (jumping = 1, jumpSpeed = 17), t && (jumpSpeed = 50));
+            }
         });
         a.beginPath(); // draw the spring
         for (i = 0; i < 5; i++) {
