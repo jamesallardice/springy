@@ -24,10 +24,10 @@ If you want to generate the minified file from the source, follow these simple s
 
  - Find the 2 occurrences of each of the following snippets and make the appropriate change (this is necessary because Closure compiler gets confused around the `with` statement and ends up renaming some object properties when it shouldn't):
 
- ```javascript
+```javascript
 b:1>6*j() // Change `b` to `t`
 
 a:-1|3*j() // Change `a` to `d`
- ```
+```
 
  - Remove the trailing semi-colon from the end of the output
