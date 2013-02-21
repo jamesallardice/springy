@@ -58,54 +58,56 @@ c.onclick = function (e) { // click on the canvas to start the game
 };
 
 function g() { // main game loop
-    a[fs] = "#79F";
-    a.fillRect(0, 0, canvasWidth, canvasHeight); // clear the canvas
-    if (alive) {
-        if (jumping) { // if jumping, move up appropriately
-            if (springY > canvasHeight / 2) { // if spring is in bottom half of screen...
-                springY -= jumpSpeed; // move spring up
-            } else { // if spring is in top half of screen...
-                jumpSpeed > 10 && score++; // increase score
+    with (a) {
+        a[fs] = "#79F";
+        fillRect(0, 0, canvasWidth, canvasHeight); // clear the canvas
+        if (alive) {
+            if (jumping) { // if jumping, move up appropriately
+                if (springY > canvasHeight / 2) { // if spring is in bottom half of screen...
+                    springY -= jumpSpeed; // move spring up
+                } else { // if spring is in top half of screen...
+                    jumpSpeed > 10 && score++; // increase score
 
-                platforms.forEach(function (p, i) { // check if any platforms are no longer in view
-                    if ((p.y += jumpSpeed) > canvasHeight) {
-                        platforms[i] = { // create a new platform to replace the one that's disappeared
-                            x: rand() * (canvasWidth - platformWidth),
-                            y: p.y - canvasHeight,
-                            t: rand() * 6 < 1,
-                            d: rand() * 3 | 0 - 1
-                        };
-                    }
-                });
+                    platforms.forEach(function (p, i) { // check if any platforms are no longer in view
+                        if ((p.y += jumpSpeed) > canvasHeight) {
+                            platforms[i] = { // create a new platform to replace the one that's disappeared
+                                x: rand() * (canvasWidth - platformWidth),
+                                y: p.y - canvasHeight,
+                                t: rand() * 6 < 1,
+                                d: rand() * 3 | 0 - 1
+                            };
+                        }
+                    });
+                }
+                !--jumpSpeed && (jumping = 0, falling = fallSpeed = 1); // decrease jump speed to simulate the effect of gravity
             }
-            !--jumpSpeed && (jumping = 0, falling = fallSpeed = 1); // decrease jump speed to simulate the effect of gravity
-        }
-        falling && (springY < canvasHeight - springHeight ? springY += fallSpeed++ : score ? alive = 0 : falling = fallSpeed = 0);
-        !falling && !jumping && (jumping = 1, jumpSpeed = 17); // finished falling, start jumping again
-        platforms.forEach(function (p, i) {
-            with (p) {
-                d *= x < 0 || x > canvasWidth - platformWidth ? -1 : 1; // move the platform horizontally if it's a moving one
-                x += d * (i / 2) * score / 100 | 0;
-                a[fs] = t ? "#FD3" : "#FFF";
-                a.fillRect(x, y, platformWidth, platformHeight);
-                falling && // check for collisions if the spring is falling
-                    springX < x + platformWidth && 
-                    springX + springWidth > x && 
-                    springY + springHeight > y && 
-                    springY + springHeight < y + platformHeight && 
-                    (falling = fallSpeed = 0, !jumping && (jumping = 1, jumpSpeed = 17), t && (jumpSpeed = 50));
+            falling && (springY < canvasHeight - springHeight ? springY += fallSpeed++ : score ? alive = 0 : falling = fallSpeed = 0);
+            !falling && !jumping && (jumping = 1, jumpSpeed = 17); // finished falling, start jumping again
+            platforms.forEach(function (p, i) {
+                with (p) {
+                    d *= x < 0 || x > canvasWidth - platformWidth ? -1 : 1; // move the platform horizontally if it's a moving one
+                    x += d * (i / 2) * score / 100 | 0;
+                    a[fs] = t ? "#FD3" : "#FFF";
+                    fillRect(x, y, platformWidth, platformHeight);
+                    falling && // check for collisions if the spring is falling
+                        springX < x + platformWidth && 
+                        springX + springWidth > x && 
+                        springY + springHeight > y && 
+                        springY + springHeight < y + platformHeight && 
+                        (falling = fallSpeed = 0, !jumping && (jumping = 1, jumpSpeed = 17), t && (jumpSpeed = 50));
+                }
+            });
+            beginPath(); // draw the spring
+            for (i = 0; i < 5; i++) {
+                arc(springX, springY + i * (7 - jumpSpeed / 2), 9, 0, Math.PI * 2);
             }
-        });
-        a.beginPath(); // draw the spring
-        for (i = 0; i < 5; i++) {
-            a.arc(springX, springY + i * (7 - jumpSpeed / 2), 9, 0, Math.PI * 2);
+            stroke();
         }
-        a.stroke();
+        setTimeout(g, 20);
+        a[fs] = "#000";
+        fillText("Score: " + score, 9, canvasHeight - 9);
+        !alive && ++loopCounter % 25 < 15 && fillText("Click to play", canvasWidth / 2 - 55, canvasHeight / 2);
     }
-    setTimeout(g, 20);
-    a[fs] = "#000";
-    a.fillText("Score: " + score, 9, canvasHeight - 9);
-    !alive && ++loopCounter % 25 < 15 && a.fillText("Click to play", canvasWidth / 2 - 55, canvasHeight / 2);
 }
 
 g();
