@@ -37,7 +37,7 @@ function init() {
     springWidth = 10;
     springHeight = 37;
     falling = fallSpeed = platformY = i = score = 0;
-    for (; i < 7; ) { // populate random platforms array, 7 == number of platforms
+    while (i < 7) { // populate random platforms array, 7 == number of platforms
         createPlatform(i++, platformY);
         platformY < canvasHeight - 20 && (platformY += canvasHeight / 7 | 0); // 7 == number of platforms, 20 == platform height
     }
