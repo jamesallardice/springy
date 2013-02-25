@@ -19,7 +19,6 @@ var canvasWidth = c.width = 320,
     alive = 0,
     rand = Math.random,
     platforms = [],
-    platformWidth = 70,
     platformHeight = 20,
     fs = "fillStyle",
     platformY, springX, springY, springWidth, springHeight, jumping, falling, jumpSpeed, fallSpeed, i, score;
@@ -28,7 +27,7 @@ a.font = "20px arial";
 
 function createPlatform(i, y) {
     platforms[i] = {
-        x: rand() * (canvasWidth - platformWidth),
+        x: rand() * (canvasWidth - 70), // 70 == platform width
         y: y,
         t: rand() * 6 < 1, // type of platform (normal or bouncy, normal more likely)
         d: rand() * 3 | 0 - 1 // which direction does it move in (-1 = left, 0 = static, 1 = right)?
@@ -83,12 +82,12 @@ function g() { // main game loop
             !falling && !jumping && (jumping = 1, jumpSpeed = 17); // finished falling, start jumping again
             platforms.forEach(function (p, i) {
                 with (p) {
-                    d *= x < 0 || x > canvasWidth - platformWidth ? -1 : 1; // move the platform horizontally if it's a moving one
+                    d *= x < 0 || x > canvasWidth - 70 ? -1 : 1; // move the platform horizontally if it's a moving one, 70 == platform width
                     x += d * (i / 2) * score / 100 | 0;
                     a[fs] = t ? "#FD3" : "#FFF";
-                    fillRect(x, y, platformWidth, platformHeight);
+                    fillRect(x, y, 70, platformHeight); // 70 == platform width
                     falling && // check for collisions if the spring is falling
-                        springX < x + platformWidth && 
+                        springX < x + 70 && // 70 == platform width
                         springX + springWidth > x && 
                         springY + springHeight > y && 
                         springY + springHeight < y + platformHeight && 
