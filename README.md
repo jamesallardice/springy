@@ -15,8 +15,10 @@ To get Springy down to its tiny little size (the minified script is only 981 byt
 If you want to generate the minified file from the source, follow these simple steps:
 
  - Run it through the [Google Closure Compiler](http://closure-compiler.appspot.com) in advanced mode
+
  - Run the output through [UglifyJS](http://marijnhaverbeke.nl/uglifyjs)
- - Remove the commented-out parts of the following snippet from the output:
+ 
+ - Remove the commented-out parts of the following snippet from the output (these are all non-initialised variable declarations that must remain in the unminified source so Closure can rename them. If they're removed, they can't be automatically renamed as they're properties of the global object):
 
 ```javascript
 /*var */e=c.width=320,f=c.height=500,g=0,h=0,j=Math.random,k=7,l=[],m=70,n=20,p="fillStyle"/*,q,r,s,t,u,v,w,x,z,i,A*/;
