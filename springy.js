@@ -94,7 +94,9 @@ function g() { // main game loop
                 }
             });
             beginPath(); // draw the spring
-            for (i = 0; i < 5; ) {
+
+            i = 0;
+            while (i < 5) {
                 arc(springX, springY + i++ * (7 - jumpSpeed / 2), 9, 0, Math.PI * 2);
             }
             stroke();
