@@ -18,7 +18,6 @@ var canvasWidth = c.width = 320,
     loopCounter = 0,
     alive = 0,
     rand = Math.random,
-    numPlatforms = 7,
     platforms = [],
     platformWidth = 70,
     platformHeight = 20,
@@ -40,9 +39,9 @@ function init() {
     springWidth = 10;
     springHeight = 37;
     falling = fallSpeed = platformY = i = score = 0;
-    for (; i < numPlatforms; ) { // populate random platforms array
+    for (; i < 7; ) { // populate random platforms array, 7 == number of platforms
         createPlatform(i++, platformY);
-        platformY < canvasHeight - platformHeight && (platformY += canvasHeight / numPlatforms | 0);
+        platformY < canvasHeight - platformHeight && (platformY += canvasHeight / 7 | 0); // 7 == number of platforms
     }
     springX = (canvasWidth - springWidth) / 2 | 0;
     springY = canvasHeight - springHeight;
