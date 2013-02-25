@@ -19,7 +19,6 @@ var canvasWidth = c.width = 320,
     alive = 0,
     rand = Math.random,
     platforms = [],
-    platformHeight = 20,
     fs = "fillStyle",
     platformY, springX, springY, springWidth, springHeight, jumping, falling, jumpSpeed, fallSpeed, i, score;
 
@@ -40,7 +39,7 @@ function init() {
     falling = fallSpeed = platformY = i = score = 0;
     for (; i < 7; ) { // populate random platforms array, 7 == number of platforms
         createPlatform(i++, platformY);
-        platformY < canvasHeight - platformHeight && (platformY += canvasHeight / 7 | 0); // 7 == number of platforms
+        platformY < canvasHeight - 20 && (platformY += canvasHeight / 7 | 0); // 7 == number of platforms, 20 == platform height
     }
     springX = (canvasWidth - springWidth) / 2 | 0;
     springY = canvasHeight - springHeight;
@@ -85,12 +84,12 @@ function g() { // main game loop
                     d *= x < 0 || x > canvasWidth - 70 ? -1 : 1; // move the platform horizontally if it's a moving one, 70 == platform width
                     x += d * (i / 2) * score / 100 | 0;
                     a[fs] = t ? "#FD3" : "#FFF";
-                    fillRect(x, y, 70, platformHeight); // 70 == platform width
+                    fillRect(x, y, 70, 20); // 70 == platform width, 20 == platform height
                     falling && // check for collisions if the spring is falling
                         springX < x + 70 && // 70 == platform width
                         springX + springWidth > x && 
                         springY + springHeight > y && 
-                        springY + springHeight < y + platformHeight && 
+                        springY + springHeight < y + 20 && //20 = platform height
                         (falling = fallSpeed = 0, !jumping && (jumping = 1, jumpSpeed = 17), t && (jumpSpeed = 50));
                 }
             });
