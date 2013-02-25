@@ -47,9 +47,17 @@ function init() {
 }
 init();
 
+function moveSpring(left) {
+    left ? springX > 0 && (springX -= 6) : !left ? springX + 10 < canvasWidth && (springX += 6) : 0;
+}
+
 b.onmousemove = function (e) { // move the mouse to the left and right to move the spring as appropriate
     ma = e.pageX;
-    springX > ma ? springX > 0 && (springX -= 6) : springX < ma ? springX + 10 < canvasWidth && (springX += 6) : 0; // 10 == spring width
+    moveSpring(springX > ma);
+};
+
+ondevicemotion = function (e) {
+    moveSpring(e.accelerationIncludingGravity.x > 0);
 };
 
 c.onclick = function (e) { // click on the canvas to start the game
