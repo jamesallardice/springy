@@ -20,7 +20,7 @@ var canvasWidth = c.width = 320,
     rand = Math.random,
     platforms = [],
     fs = "fillStyle",
-    platformY, springX, springY, springWidth, springHeight, jumping, falling, jumpSpeed, fallSpeed, i, score;
+    platformY, springX, springY, jumping, falling, jumpSpeed, fallSpeed, i, score;
 
 a.font = "20px arial";
 
@@ -34,15 +34,13 @@ function createPlatform(i, y) {
 }
 
 function init() {
-    springWidth = 10;
-    springHeight = 37;
     falling = fallSpeed = platformY = i = score = 0;
     while (i < 7) { // populate random platforms array, 7 == number of platforms
         createPlatform(i++, platformY);
         platformY < canvasHeight - 20 && (platformY += canvasHeight / 7 | 0); // 7 == number of platforms, 20 == platform height
     }
-    springX = (canvasWidth - springWidth) / 2 | 0;
-    springY = canvasHeight - springHeight;
+    springX = (canvasWidth - 10) / 2 | 0; // 10 == spring width
+    springY = canvasHeight - 37; // 37 == spring height
 
     jumping = 1;
     jumpSpeed = 17;
@@ -51,7 +49,7 @@ init();
 
 b.onmousemove = function (e) { // move the mouse to the left and right to move the spring as appropriate
     ma = e.pageX;
-    springX > ma ? springX > 0 && (springX -= 6) : springX < ma ? springX + springWidth < canvasWidth && (springX += 6) : 0;
+    springX > ma ? springX > 0 && (springX -= 6) : springX < ma ? springX + 10 < canvasWidth && (springX += 6) : 0; // 10 == spring width
 };
 
 c.onclick = function (e) { // click on the canvas to start the game
@@ -77,7 +75,7 @@ function g() { // main game loop
                 }
                 !--jumpSpeed && (jumping = 0, falling = fallSpeed = 1); // decrease jump speed to simulate the effect of gravity
             }
-            falling && (springY < canvasHeight - springHeight ? springY += fallSpeed++ : score ? alive = 0 : falling = fallSpeed = 0);
+            falling && (springY < canvasHeight - 37 ? springY += fallSpeed++ : score ? alive = 0 : falling = fallSpeed = 0); // 37 == spring height
             !falling && !jumping && (jumping = 1, jumpSpeed = 17); // finished falling, start jumping again
             platforms.forEach(function (p, i) {
                 with (p) {
@@ -87,9 +85,9 @@ function g() { // main game loop
                     fillRect(x, y, 70, 20); // 70 == platform width, 20 == platform height
                     falling && // check for collisions if the spring is falling
                         springX < x + 70 && // 70 == platform width
-                        springX + springWidth > x && 
-                        springY + springHeight > y && 
-                        springY + springHeight < y + 20 && //20 = platform height
+                        springX + 10 > x && // 10 == spring width
+                        springY + 37 > y &&  // 37 == spring height
+                        springY + 37 < y + 20 && // 37 == spring height, 20 = platform height
                         (falling = fallSpeed = 0, !jumping && (jumping = 1, jumpSpeed = 17), t && (jumpSpeed = 50));
                 }
             });
