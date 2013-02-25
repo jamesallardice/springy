@@ -27,17 +27,21 @@ var canvasWidth = c.width = 320,
 
 a.font = "20px arial";
 
+function createPlatform(i, y) {
+    platforms[i] = {
+        x: rand() * (canvasWidth - platformWidth),
+        y: y,
+        t: rand() * 6 < 1, // type of platform (normal or bouncy, normal more likely)
+        d: rand() * 3 | 0 - 1 // which direction does it move in (-1 = left, 0 = static, 1 = right)?
+    };
+}
+
 function init() {
     springWidth = 10;
     springHeight = 37;
     falling = fallSpeed = platformY = i = score = 0;
     for (i = 0; i < numPlatforms; i++) { // populate random platforms array
-        platforms[i] = {
-            x: rand() * (canvasWidth - platformWidth),
-            y: platformY,
-            t: rand() * 6 < 1, // type of platform (normal or bouncy, normal more likely)
-            d: rand() * 3 | 0 - 1 // which direction does it move in (-1 = left, 0 = static, 1 = right)?
-        };
+        createPlatform(i, platformY);
         platformY < canvasHeight - platformHeight && (platformY += canvasHeight / numPlatforms | 0);
     }
     springX = (canvasWidth - springWidth) / 2 | 0;
@@ -70,12 +74,7 @@ function g() { // main game loop
 
                     platforms.forEach(function (p, i) { // check if any platforms are no longer in view
                         if ((p.y += jumpSpeed) > canvasHeight) {
-                            platforms[i] = { // create a new platform to replace the one that's disappeared
-                                x: rand() * (canvasWidth - platformWidth),
-                                y: p.y - canvasHeight,
-                                t: rand() * 6 < 1,
-                                d: rand() * 3 | 0 - 1
-                            };
+                            createPlatform(i, p.y - canvasHeight);
                         }
                     });
                 }

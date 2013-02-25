@@ -22,7 +22,7 @@ If you want to generate the minified file from the source, follow these simple s
 /*var */e=c.width=320,f=c.height=500,g=0,h=0,j=Math.random,k=7,l=[],m=70,n=20,p="fillStyle"/*,q,r,s,t,u,v,w,x,z,i,A*/;
 ```
 
- - Find the 2 occurrences of each of the following snippets and make the appropriate change (this is necessary because Closure compiler gets confused around the `with` statement and ends up renaming some object properties when it shouldn't):
+ - Find the single occurrence of each of the following snippets and make the appropriate change (this is necessary because Closure compiler gets confused around the `with` statement and ends up renaming some object properties when it shouldn't):
 
 ```javascript
 b:1>6*j() // Change `b` to `t`
