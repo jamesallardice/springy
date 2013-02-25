@@ -40,8 +40,8 @@ function init() {
     springWidth = 10;
     springHeight = 37;
     falling = fallSpeed = platformY = i = score = 0;
-    for (; i < numPlatforms; i++) { // populate random platforms array
-        createPlatform(i, platformY);
+    for (; i < numPlatforms; ) { // populate random platforms array
+        createPlatform(i++, platformY);
         platformY < canvasHeight - platformHeight && (platformY += canvasHeight / numPlatforms | 0);
     }
     springX = (canvasWidth - springWidth) / 2 | 0;
@@ -97,8 +97,8 @@ function g() { // main game loop
                 }
             });
             beginPath(); // draw the spring
-            for (i = 0; i < 5; i++) {
-                arc(springX, springY + i * (7 - jumpSpeed / 2), 9, 0, Math.PI * 2);
+            for (i = 0; i < 5; ) {
+                arc(springX, springY + i++ * (7 - jumpSpeed / 2), 9, 0, Math.PI * 2);
             }
             stroke();
         }
