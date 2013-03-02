@@ -134,7 +134,7 @@ fs.readFile("springy.js", "utf8", function (err, code) {
                 }
 
                 // Build the final compiled string, including the depacking code
-                compiled = "s='" + compiled + "';r='" + packString.substring(1) + "'.split(\"~\");while(p=r.pop())s=s.replace(RegExp(p[0],\"g\"),p.slice(1));eval(s)";
+                compiled = "s='" + compiled + "';for(r='" + packString.substring(1) + "'.split('~');p=r.pop();)s=s.replace(RegExp(p[0],'g'),p.slice(1));eval(s)";
 
                 // Save the minified and packed code to a file
                 fs.writeFile("springy.min.js", compiled, function () {
