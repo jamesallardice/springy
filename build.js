@@ -59,7 +59,7 @@ fs.readFile("springy.js", "utf8", function (err, code) {
 
                 // Remove variable declarations that don't include assignments
                 // TODO: Make this more flexible in case the identifiers ever change
-                compiled = compiled.replace(",l,m,n,p,q,s,u,i,v,w", "");
+                compiled = compiled.replace("f,g,h,j,k,l,m,i,n,p,q,r,", "");
 
                 // Remove any `var` keywords (any declarations can be properties of the global object)
                 compiled = compiled.replace(/var /g, "");

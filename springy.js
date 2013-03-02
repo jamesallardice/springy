@@ -13,12 +13,12 @@
  *
  */
 
-var canvasWidth = c.width = 320, 
+var platformY, springX, springY, jumping, falling, jumpSpeed, fallSpeed, i, score, ma, alive, rotation,
+    canvasWidth = c.width = 320,
     canvasHeight = c.height = 500,
     loopCounter = alive = rotation = 0, // rotation = mobile device rotation, -1 == left, 0 == static, 1 == right
     rand = Math.random,
-    platforms = [],
-    platformY, springX, springY, jumping, falling, jumpSpeed, fallSpeed, i, score, ma;
+    platforms = [];
 
 a.font = "20px arial";
 
@@ -57,7 +57,7 @@ b.onmousemove = function (e) { // move the mouse to the left and right to move t
 this["ondevicemotion"] = function (e) { // iOS requires context for the property
     A = e.accelerationIncludingGravity.x;
     rotation = A < 0 ? 1 : A > 0 ? -1 : 0;
-    orientation !== undefined && (rotation = -rotation); // Opera Mobile doesn't support orientation and seems to reverse the axis
+    orientation != undefined && (rotation = -rotation); // Opera Mobile doesn't support orientation and seems to reverse the axis
 };
 
 c.onclick = function (e) { // click on the canvas to start the game
