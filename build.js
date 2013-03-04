@@ -73,8 +73,8 @@ fs.readFile("springy.js", "utf8", function (err, code) {
                 // Add a space between the `function` keyword and following paren to create more repetition
                 compiled = compiled.replace(/function\(/g, "function (");
 
-
-                    console.log(compiled);
+                // Packer works off repeated patterns and we have lots of '500's, so make a few more
+                compiled = compiled.replace(/250/g, "500/2");
 
                 console.log("Packing...");
 
