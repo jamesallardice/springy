@@ -59,7 +59,7 @@ fs.readFile("springy.js", "utf8", function (err, code) {
 
                 // Remove variable declarations that don't include assignments
                 // TODO: Make this more flexible in case the identifiers ever change
-                compiled = compiled.replace("f,g,h,j,k,l,m,i,n,p,q,r,", "");
+                compiled = compiled.replace("f,g,h,j,k,l,m,i,n,p,q,s,", "");
 
                 // Remove any `var` keywords (any declarations can be properties of the global object)
                 compiled = compiled.replace(/var /g, "");
@@ -72,6 +72,9 @@ fs.readFile("springy.js", "utf8", function (err, code) {
 
                 // Add a space between the `function` keyword and following paren to create more repetition
                 compiled = compiled.replace(/function\(/g, "function (");
+
+
+                    console.log(compiled);
 
                 console.log("Packing...");
 

@@ -14,20 +14,19 @@
  */
 
 var platformY, springX, springY, jumping, falling, jumpSpeed, fallSpeed, i, score, ma, alive, rotation,
-    canvasWidth = c.width = 320,
-    canvasHeight = c.height = 500,
     loopCounter = alive = rotation = 0, // rotation = mobile device rotation, -1 == left, 0 == static, 1 == right
-    rand = Math.random,
     platforms = [];
 
+c.width = 320;
+c.height = 500;
 a.font = "20px arial";
 
 function createPlatform(i, y) {
     platforms[i] = {
-        x: rand() * (canvasWidth - 70), // 70 == platform width
+        x: Math.random() * 250, // 250 == canvas width (320) - platform width (70)
         y: y,
-        t: rand() * 6 < 1, // type of platform (normal or bouncy, normal more likely)
-        d: rand() * 3 | 0 - 1 // which direction does it move in (-1 = left, 0 = static, 1 = right)?
+        t: Math.random() * 6 < 1, // type of platform (normal or bouncy, normal more likely)
+        d: Math.random() * 3 | 0 - 1 // which direction does it move in (-1 = left, 0 = static, 1 = right)?
     };
 }
 
@@ -35,10 +34,10 @@ function init() {
     falling = fallSpeed = platformY = i = score = 0;
     while (i < 7) { // populate random platforms array, 7 == number of platforms
         createPlatform(i++, platformY);
-        platformY < canvasHeight - 20 && (platformY += canvasHeight / 7 | 0); // 7 == number of platforms, 20 == platform height
+        platformY < 480 && (platformY += 71); // 71 == canvas height / num platforms (7), 480 == canvas height - platform height (20)
     }
-    springX = (canvasWidth - 10) / 2 | 0; // 10 == spring width
-    springY = canvasHeight - 37; // 37 == spring height
+    springX = 155;
+    springY = 463; // 463 == canvas height (500) - spring height (37)
 
     jumping = 1;
     jumpSpeed = 17;
@@ -46,7 +45,7 @@ function init() {
 init();
 
 function moveSpring(left) {
-    left < 0 ? springX > 0 && (springX -= 6) : left > 0 ? springX + 10 < canvasWidth && (springX += 6) : 0;
+    left < 0 ? springX > 0 && (springX -= 6) : left > 0 ? springX + 10 < 320 && (springX += 6) : 0;
 }
 
 b.onmousemove = function (e) { // move the mouse to the left and right to move the spring as appropriate
@@ -66,28 +65,28 @@ c.onclick = function (e) { // click on the canvas to start the game
 
 function g() { // main game loop
     a.fillStyle = "#79F";
-    a.fillRect(0, 0, canvasWidth, canvasHeight); // clear the canvas
+    a.fillRect(0, 0, 320, 500); // clear the canvas
     if (alive) {
         moveSpring(rotation);
         if (jumping) { // if jumping, move up appropriately
-            if (springY > canvasHeight / 2) { // if spring is in bottom half of screen...
+            if (springY > 250) { // if spring is in bottom half of screen...
                 springY -= jumpSpeed; // move spring up
             } else { // if spring is in top half of screen...
                 jumpSpeed > 10 && score++; // increase score
 
                 platforms.forEach(function (p, i) { // check if any platforms are no longer in view
-                    if ((p.y += jumpSpeed) > canvasHeight) {
-                        createPlatform(i, p.y - canvasHeight);
+                    if ((p.y += jumpSpeed) > 500) {
+                        createPlatform(i, p.y - 500);
                     }
                 });
             }
             !--jumpSpeed && (jumping = 0, falling = fallSpeed = 1); // decrease jump speed to simulate the effect of gravity
         }
-        falling && (springY < canvasHeight - 37 ? springY += fallSpeed++ : score ? alive = 0 : falling = fallSpeed = 0); // 37 == spring height
+        falling && (springY < 463 ? springY += fallSpeed++ : score ? alive = 0 : falling = fallSpeed = 0); // 37 == spring height
         !falling && !jumping && (jumping = 1, jumpSpeed = 17); // finished falling, start jumping again
         platforms.forEach(function (p, i) {
             with (p) {
-                d *= x < 0 || x > canvasWidth - 70 ? -1 : 1; // move the platform horizontally if it's a moving one, 70 == platform width
+                d *= x < 0 || x > 250 ? -1 : 1; // move the platform horizontally if it's a moving one, 70 == platform width
                 x += d * (i / 2) * score / 100 | 0;
                 a.fillStyle = t ? "#FD3" : "#FFF";
                 a.fillRect(x, y, 70, 20); // 70 == platform width, 20 == platform height
@@ -109,8 +108,8 @@ function g() { // main game loop
     }
     setTimeout(g, 20);
     a.fillStyle = "#000";
-    a.fillText("Score: " + score, 9, canvasHeight - 9);
-    !alive && ++loopCounter % 25 < 15 && a.fillText("Click to play", canvasWidth / 2 - 55, canvasHeight / 2);
+    a.fillText("Score: " + score, 9, 491);
+    !alive && ++loopCounter % 25 < 15 && a.fillText("Click to play", 105, 250);
 }
 
 g();
