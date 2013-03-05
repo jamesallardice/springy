@@ -83,8 +83,8 @@ fs.readFile("springy.js", "utf8", function (err, code) {
                 compiled = compiled.replace(/var /g, "");
 
                 // Fix property names that Closure renames mistakenly
-                compiled = compiled.replace(/c:([^\(]+)\(\)/, "t:$1()");
-                compiled = compiled.replace(/b:([^\(]+)\(\)/, "d:$1()");
+                compiled = compiled.replace(/b:1>6/, "t:1>6");
+                compiled = compiled.replace(/a:3\*/, "d:3*");
 
                 // Add a space between the `function` keyword and following paren
                 compiled = compiled.replace(/function \(/g, "function(");
@@ -107,8 +107,6 @@ fs.readFile("springy.js", "utf8", function (err, code) {
                     }
                 });
                 compiled = compiled.replace(/function\([^\)\,]{0,1}\)/g, "function(" + argIdentifiers.join() + ")");
-
-                console.log(compiled);
 
                 // Pack the code (somewhat like gzip, makes use of repeated patterns in the code)
                 console.log("Packing...");
