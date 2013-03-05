@@ -13,7 +13,7 @@
  *
  */
 
-var platformY, springX, springY, jumping, falling, jumpSpeed, fallSpeed, i, score, ma, alive, rotation,
+var e, f, platformY, springX, springY, jumping, falling, jumpSpeed, fallSpeed, i, score, ma, alive, rotation, createPlatform, init, moveSpring, g,
     loopCounter = alive = rotation = 0, // rotation = mobile device rotation, -1 == left, 0 == static, 1 == right
     platforms = [];
 
@@ -21,16 +21,16 @@ c.width = 320;
 c.height = 500;
 a.font = "20px arial";
 
-function createPlatform(i, y) {
-    platforms[i] = {
+createPlatform = function (e, f) {
+    platforms[e] = {
         x: Math.random() * 250, // 250 == canvas width (320) - platform width (70)
-        y: y,
+        y: f,
         t: Math.random() * 6 < 1, // type of platform (normal or bouncy, normal more likely)
         d: Math.random() * 3 | 0 - 1 // which direction does it move in (-1 = left, 0 = static, 1 = right)?
     };
-}
+};
 
-function init() {
+init = function () {
     falling = fallSpeed = platformY = i = score = 0;
     while (i < 7) { // populate random platforms array, 7 == number of platforms
         createPlatform(i++, platformY);
@@ -41,12 +41,12 @@ function init() {
 
     jumping = 1;
     jumpSpeed = 17;
-}
+};
 init();
 
-function moveSpring(left) {
-    left < 0 ? springX > 0 && (springX -= 6) : left > 0 ? springX + 10 < 320 && (springX += 6) : 0;
-}
+moveSpring = function (e) {
+    e < 0 ? springX > 0 && (springX -= 6) : e > 0 ? springX + 10 < 320 && (springX += 6) : 0;
+};
 
 b.onmousemove = function (e) { // move the mouse to the left and right to move the spring as appropriate
     ma = e.pageX;
@@ -59,11 +59,11 @@ this["ondevicemotion"] = function (e) { // iOS requires context for the property
     orientation != undefined && (rotation = -rotation); // Opera Mobile doesn't support orientation and seems to reverse the axis
 };
 
-c.onclick = function (e) { // click on the canvas to start the game
+c.onclick = function () { // click on the canvas to start the game
     !alive && (alive = !init());
 };
 
-function g() { // main game loop
+g = function () { // main game loop
     a.fillStyle = "#79F";
     a.fillRect(0, 0, 320, 500); // clear the canvas
     if (alive) {
@@ -74,9 +74,9 @@ function g() { // main game loop
             } else { // if spring is in top half of screen...
                 jumpSpeed > 10 && score++; // increase score
 
-                platforms.forEach(function (p, i) { // check if any platforms are no longer in view
-                    if ((p.y += jumpSpeed) > 500) {
-                        createPlatform(i, p.y - 500);
+                platforms.forEach(function (e, f) { // check if any platforms are no longer in view
+                    if ((e.y += jumpSpeed) > 500) {
+                        createPlatform(f, e.y - 500);
                     }
                 });
             }
@@ -84,10 +84,10 @@ function g() { // main game loop
         }
         falling && (springY < 463 ? springY += fallSpeed++ : score ? alive = 0 : falling = fallSpeed = 0); // 37 == spring height
         !falling && !jumping && (jumping = 1, jumpSpeed = 17); // finished falling, start jumping again
-        platforms.forEach(function (p, i) {
-            with (p) {
+        platforms.forEach(function (e, f) {
+            with (e) {
                 d *= x < 0 || x > 250 ? -1 : 1; // move the platform horizontally if it's a moving one, 70 == platform width
-                x += d * (i / 2) * score / 100 | 0;
+                x += d * (f / 2) * score / 100 | 0;
                 a.fillStyle = t ? "#FD3" : "#FFF";
                 a.fillRect(x, y, 70, 20); // 70 == platform width, 20 == platform height
                 falling && // check for collisions if the spring is falling
@@ -110,6 +110,6 @@ function g() { // main game loop
     a.fillStyle = "#000";
     a.fillText("Score: " + score, 9, 491);
     !alive && ++loopCounter % 25 < 15 && a.fillText("Click to play", 105, 250);
-}
+};
 
 g();
