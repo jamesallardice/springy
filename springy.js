@@ -31,7 +31,7 @@ createPlatform = function (e, f) {
 };
 
 init = function () {
-    falling = fallSpeed = platformY = i = score = 0;
+    platformY = i = score = falling = fallSpeed = 0;
     while (i < 7) { // populate random platforms array, 7 == number of platforms
         createPlatform(i++, platformY);
         platformY < 480 && (platformY += 71); // 71 == canvas height / num platforms (7), 480 == canvas height - platform height (20)
