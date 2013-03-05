@@ -91,10 +91,8 @@ fs.readFile("springy.js", "utf8", function (err, code) {
                 // Add a space between the `function` keyword and following paren
                 compiled = compiled.replace(/function \(/g, "function(");
 
-                // Packer works off repeated patterns and we have lots of '500's, so make a few more
-                compiled = compiled.replace(/250/g, "500/2");
-
-                //console.log(compiled);
+                // Packer works off repeated patterns and we have lots of '250's, so make a few more
+                compiled = compiled.replace(/500/g, "250*2");
 
                 // Parse the resulting code so we can rework function signatures (if they all take the same arguments we get better compression)
                 parsed = esprima.parse(compiled, {
