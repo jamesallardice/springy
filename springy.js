@@ -19,7 +19,6 @@ var e, f, platformY, springX, springY, jumping, falling, jumpSpeed, fallSpeed, i
 
 c.width = 320;
 c.height = 500;
-a.font = "20px arial";
 
 createPlatform = function (e, f) {
     platforms[e] = {
@@ -108,8 +107,9 @@ g = function () { // main game loop
     }
     setTimeout(g, 20);
     a.fillStyle = "#000";
+    a.font = "20px arial";
     a.fillText("Score: " + score, 9, 491);
-    !alive && ++loopCounter % 25 < 15 && a.fillText("Click to play", 105, 250);
+    !alive && (++loopCounter % 25 < 15 && a.fillText("Click or tap to play", 70, 250), a.font="13px arial", a.fillText("Use the mouse or tilt your mobile device to move", 15, 290));
 };
 
 g();
