@@ -9,7 +9,7 @@ var http = require("http"),
 
     // Constants for packing
     MIN_PATTERN_LENGTH = 2,
-    MAX_PATTERN_LENGTH = 16;
+    MAX_PATTERN_LENGTH = 18;
 
 // Recursively traverses an esprima parse tree, executing a callback on each node
 function traverse(obj, fn) {
@@ -86,13 +86,13 @@ fs.readFile("springy.js", "utf8", function (err, code) {
                 compiled = compiled.replace(/c:([^\(]+)\(\)/, "t:$1()");
                 compiled = compiled.replace(/b:([^\(]+)\(\)/, "d:$1()");
 
-                // Pack the code (somewhat like gzip, makes use of repeated patterns in the code)
-
                 // Add a space between the `function` keyword and following paren
                 compiled = compiled.replace(/function \(/g, "function(");
 
                 // Packer works off repeated patterns and we have lots of '250's, so make a few more
                 compiled = compiled.replace(/500/g, "250*2");
+
+                compiled = compiled.replace("j=1;l=17", "(j=1,l=17)");
 
                 // Parse the resulting code so we can rework function signatures (if they all take the same arguments we get better compression)
                 parsed = esprima.parse(compiled, {
@@ -108,6 +108,9 @@ fs.readFile("springy.js", "utf8", function (err, code) {
                 });
                 compiled = compiled.replace(/function\([^\)\,]{0,1}\)/g, "function(" + argIdentifiers.join() + ")");
 
+                console.log(compiled);
+
+                // Pack the code (somewhat like gzip, makes use of repeated patterns in the code)
                 console.log("Packing...");
 
                 // Build up a list of characters that can be used for packing

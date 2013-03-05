@@ -39,7 +39,7 @@ init = function () {
     springX = 155;
     springY = 463; // 463 == canvas height (500) - spring height (37)
 
-    jumping = 1;
+    jumping = 1,
     jumpSpeed = 17;
 };
 init();
@@ -74,7 +74,7 @@ g = function () { // main game loop
             } else { // if spring is in top half of screen...
                 jumpSpeed > 10 && score++; // increase score
 
-                platforms.forEach(function (e, f) { // check if any platforms are no longer in view
+                platforms.forEach(i = function (e, f) { // check if any platforms are no longer in view
                     if ((e.y += jumpSpeed) > 500) {
                         createPlatform(f, e.y - 500);
                     }
@@ -84,7 +84,7 @@ g = function () { // main game loop
         }
         falling && (springY < 463 ? springY += fallSpeed++ : score ? alive = 0 : falling = fallSpeed = 0); // 37 == spring height
         !falling && !jumping && (jumping = 1, jumpSpeed = 17); // finished falling, start jumping again
-        platforms.forEach(function (e, f) {
+        platforms.forEach(i = function (e, f) {
             with (e) {
                 d *= x < 0 || x > 250 ? -1 : 1; // move the platform horizontally if it's a moving one, 70 == platform width
                 x += d * (f / 2) * score / 100 | 0;
