@@ -55,8 +55,8 @@ b.onmousemove = function (e) { // move the mouse to the left and right to move t
 
 this["ondevicemotion"] = function (e) { // iOS requires context for the property
     A = e.accelerationIncludingGravity.x;
-    rotation = A < 0 ? 1 : A > 0 ? -1 : 0;
-    orientation != undefined && (rotation = -rotation); // Opera Mobile doesn't support orientation and seems to reverse the axis
+    rotation = A < 0 ? -1 : A > 0 ? 1 : 0;
+    isNaN(this.orientation) && (rotation = -rotation); // Opera Mobile doesn't support orientation and seems to reverse the axis
 };
 
 c.onclick = function () { // click on the canvas to start the game
