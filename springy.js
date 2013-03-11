@@ -109,7 +109,7 @@ g = function () { // main game loop
     a.fillStyle = "#000";
     a.font = "20px arial";
     a.fillText("Score: " + score, 9, 491);
-    !alive && (++loopCounter % 25 < 15 && a.fillText("Click or tap to play", 70, 250), a.font="13px arial", a.fillText("Use the mouse or tilt your mobile device to move", 15, 290));
+    !alive && (++loopCounter % 25 < 15 && a.fillText("Click or tap to play", 70, 250), a.font = "13px arial", a.fillText("Use the mouse or tilt your mobile device to move", 15, 290));
 };
 
 g();
