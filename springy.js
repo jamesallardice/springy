@@ -30,8 +30,7 @@ createPlatform = function (e, f) {
 };
 
 init = function () {
-    platformY = i = score = falling = fallSpeed = 0;
-    while (i < 7) { // populate random platforms array, 7 == number of platforms
+    for (platformY = i = score = falling = fallSpeed = 0; i < 7;) { // populate random platforms array, 7 == number of platforms
         createPlatform(i++, platformY);
         platformY < 480 && (platformY += 71); // 71 == canvas height / num platforms (7), 480 == canvas height - platform height (20)
     }
@@ -97,10 +96,9 @@ setInterval(function () {
                     (falling = fallSpeed = 0, !jumping && (jumping = 1, jumpSpeed = 17), t && (jumpSpeed = 50));
             }
         });
-        a.beginPath(); // draw the spring
 
-        i = 0;
-        while (i < 5) {
+        a.beginPath(); // draw the spring
+        for (i = 0; i < 5;) {
             a.arc(springX, springY + i++ * (7 - jumpSpeed / 2), 9, 0, Math.PI * 2);
         }
         a.stroke();
