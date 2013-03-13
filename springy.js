@@ -62,7 +62,7 @@ c.onclick = function () { // click on the canvas to start the game
     !alive && (alive = !init());
 };
 
-g = function () { // main game loop
+setInterval(function () {
     a.fillStyle = "#79F";
     a.fillRect(0, 0, 320, 500); // clear the canvas
     if (alive) {
@@ -105,11 +105,8 @@ g = function () { // main game loop
         }
         a.stroke();
     }
-    setTimeout(g, 20);
     a.fillStyle = "#000";
     a.font = "20px arial";
     a.fillText("Score: " + score, 9, 491);
     !alive && (++loopCounter % 25 < 15 && a.fillText("Click or tap to play", 70, 250), a.font = "13px arial", a.fillText("Use the mouse or tilt your mobile device to move", 15, 290));
-};
-
-g();
+}, 20);
