@@ -72,7 +72,7 @@ setInterval(function () {
             } else { // if spring is in top half of screen...
                 jumpSpeed > 10 && score++; // increase score
 
-                platforms.forEach(i = function (e, f) { // check if any platforms are no longer in view
+                platforms.forEach(function (e, f) { // check if any platforms are no longer in view
                     if ((e.y += jumpSpeed) > 500) {
                         createPlatform(f, e.y - 500);
                     }
@@ -82,7 +82,7 @@ setInterval(function () {
         }
         falling && (springY < 463 ? springY += fallSpeed++ : score ? alive = 0 : falling = fallSpeed = 0); // 37 == spring height
         !falling && !jumping && (jumping = 1, jumpSpeed = 17); // finished falling, start jumping again
-        platforms.forEach(i = function (e, f) {
+        platforms.forEach(function (e, f) {
             with (e) {
                 d *= x < 0 || x > 250 ? -1 : 1; // move the platform horizontally if it's a moving one, 70 == platform width
                 x += d * (f / 2) * score / 100 | 0;
