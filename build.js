@@ -163,14 +163,15 @@ fs.readFile("springy.js", "utf8", function (err, code) {
                     // Make the substitutions
                     if (substitutions[0] && substitutions[0].pattern != lastPattern) {
                         packTable[c] = substitutions[0];
-                        packString += "~" + c + substitutions[0].pattern;
+                        packString = c + packString;
                         compiled = compiled.replace(new RegExp(substitutions[0].pattern.replace(/(\W)/g, "\\$1"), "g"), c);
+                        compiled += c + substitutions[0].pattern;
                         lastPattern = substitutions[0].pattern;
                     }
                 }
 
                 // Build the final compiled string, including the depacking code
-                compiled = "s='" + compiled + "';for(r='" + packString.substring(1) + "'.split('~');p=r.pop();)s=s.split(p[0]).join(p.slice(1));eval(s)";
+                compiled = "s='" + compiled + "';for(p=" + (255 - Object.keys(packTable).length) + ";p<255;)with(s.split(String.fromCharCode(p++)))s=join(pop());eval(s)";
 
                 // Save the minified and packed code to a file
                 fs.writeFile("springy.min.js", compiled, function () {
